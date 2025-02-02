@@ -8,27 +8,20 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import CalendarHeader from "./components/Calendar/CalendarHeader";
-
-const App = () => {
-  const [mount, setmount] = useState(1);
-
+const CalendarHeader = (props) => {
   return (
     <SafeAreaView style={styles.body}>
-      <CalendarHeader />
-      <Text>{mount}</Text>
+      <Text>HEADER</Text>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   body: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    fontFamily: "Roboto",
-    backgroundColor: "#1E1F25",
+    width: "80%",
+    height: "20px",
+    backgroundColor: "red",
   },
 });
 
-export default App;
+export default CalendarHeader;
