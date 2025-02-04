@@ -5,63 +5,29 @@ import {
   Text,
   StyleSheet,
   Image,
-  TouchableHighlight,
+  TouchableOpacity,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Font from "expo-font";
 
-const MONTHS = [
-  "Январь",
-  "Февраль",
-  "Март",
-  "Апрель",
-  "Май",
-  "Июнь",
-  "Июль",
-  "Август",
-  "Сентябрь",
-  "Октябрь",
-  "Ноябрь",
-  "Декабрь",
-];
-
-const CalendarHeader = (props) => {
-  let activeDate = new Date();
-
-  const [months, setMonths] = useState(MONTHS[activeDate.getMonth()]);
-
-  // activeDate.getDate()
-  // MONTHS[activeDate.getMonth()]
-  // activeDate.getFullYear()
-
-  // console.log(activeDate.getDate());
-  // console.log(MONTHS[activeDate.getMonth()]);
-  // console.log(activeDate.getFullYear());
-
-  console.log(123);
+const CalendarHeader = ({ months, date, setDate }) => {
   return (
     <SafeAreaView style={styles.body}>
-      <Text style={styles.title}>October 2020</Text>
+      <Text style={styles.title}>{`${months[date.month]} ${date.year}`}</Text>
       <View style={styles.steps}>
-        <TouchableHighlight
-          style={styles.stepsDiv}
-          onPress={() => console.log(123)}
-        >
+        <TouchableOpacity style={styles.stepsDiv} onPress={() => setDate(0)}>
           <Image
             style={styles.stepsImg}
             source={require("../../assets/Previous.png")}
           />
-        </TouchableHighlight>
+        </TouchableOpacity>
 
-        <TouchableHighlight
-          style={styles.stepsDiv}
-          onPress={() => console.log(123)}
-        >
+        <TouchableOpacity style={styles.stepsDiv} onPress={() => setDate(1)}>
           <Image
             style={styles.stepsImg}
             source={require("../../assets/Next.png")}
           />
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

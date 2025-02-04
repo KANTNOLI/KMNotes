@@ -9,14 +9,61 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import CalendarHeader from "./components/Calendar/CalendarHeader";
+import CalendarContent from "./components/Calendar/CalendarContent";
+
+const MONTHS = [
+  "Январь",
+  "Февраль",
+  "Март",
+  "Апрель",
+  "Май",
+  "Июнь",
+  "Июль",
+  "Август",
+  "Сентябрь",
+  "Октябрь",
+  "Ноябрь",
+  "Декабрь",
+];
 
 const App = () => {
-  const [mount, setmount] = useState(1);
+  let activeDate = new Date();
+
+  const [month, setMonth] = useState(activeDate.getMonth());
+  const [year, setYear] = useState(activeDate.getFullYear());
+
+  //console.log(new Date(year, month + 1, 0).getDate());
+
+  const setMonthHandler = (variate) => {
+    if (variate) {
+      if (month < 11) {
+        setMonth(month + 1);
+      } else {
+        setYear(year + 1);
+        setMonth(0);
+      }
+    } else {
+      if (month > 0) {
+        setMonth(month - 1);
+      } else {
+        setYear(year - 1);
+        setMonth(11);
+      }
+    }
+  };
 
   return (
     <SafeAreaView style={styles.body}>
-      <CalendarHeader />
-      <Text>{mount}</Text>
+      <CalendarHeader
+        months={MONTHS}
+        date={{ month, year }}
+        setDate={setMonthHandler}
+      />
+      <CalendarContent
+        countDay={new Date(year, month + 1, 0).getDate()}
+        date={{ month, year }}
+      />
+      <Text>{month}</Text>
     </SafeAreaView>
   );
 };
