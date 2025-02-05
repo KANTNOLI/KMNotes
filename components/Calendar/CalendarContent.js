@@ -43,7 +43,11 @@ const replaceColorDay = (ArrayDays, keyMonth, keyDay, MEMORY, style) => {
   AsyncStorage.setItem(keyMonth, JSON.stringify(ArrayDays));
 };
 
-const CalendarContent = ({ date, countDay }) => {
+const CalendarContent = ({ date, countDay, chooseDay, navigation }) => {
+  let activeDate = new Date();
+  activeDate = date.month == activeDate.getMonth() ? activeDate.getDate() : -1;
+
+  console.log();
   const weekName = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
   const variateVisualDate = [
     stylesDays.dayStyle1,
@@ -100,11 +104,12 @@ const CalendarContent = ({ date, countDay }) => {
   };
 
   // Hundler click
-  const checkLongClickActive = () => {
+  const checkLongClickActive = (item) => {
     clearTimeout(longClick.current);
     // open
     if (fastClick) {
-      console.log("fast func");
+      chooseDay(item.day);
+      navigation.navigate("Plans");
     }
   };
 
@@ -142,7 +147,11 @@ const CalendarContent = ({ date, countDay }) => {
         data={days}
         renderItem={({ item, index }) => (
           <TouchableOpacity
-            style={[stylesDays.snippetDay, styleDateHandler(item, index)]}
+            style={[
+              stylesDays.snippetDay,
+              styleDateHandler(item, index),
+              activeDate == item.day ? stylesDays.activeDay : "",
+            ]}
             onPressIn={() => checkLongClick(item, index)}
             onPressOut={checkLongClickActive}
           >
@@ -182,6 +191,14 @@ const stylesDays = {
   },
   dayStyle7: {
     borderWidth: 1,
+  },
+  activeDay: {
+    // Shadow for iOS
+    shadowColor: "white",
+    shadowOpacity: 0.8,
+    shadowRadius: 5,
+    // Elevation for Android
+    elevation: 5,
   },
   day: {
     alignItems: "center",

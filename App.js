@@ -30,10 +30,14 @@ const MONTHS = [
 ];
 
 const App = () => {
+  const Stack = createStackNavigator();
+
   let activeDate = new Date();
 
   const [month, setMonth] = useState(activeDate.getMonth());
   const [year, setYear] = useState(activeDate.getFullYear());
+  const [chooseDay, setChooseDay] = useState(null);
+  console.log(chooseDay);
 
   //console.log(new Date(year, month + 1, 0).getDate());
 
@@ -55,7 +59,7 @@ const App = () => {
     }
   };
 
-  return (
+  const MainScreen = ({ navigation }) => (
     <SafeAreaView style={styles.body}>
       <CalendarHeader
         months={MONTHS}
@@ -65,9 +69,28 @@ const App = () => {
       <CalendarContent
         countDay={new Date(year, month + 1, 0).getDate()}
         date={{ month, year }}
+        chooseDay={(value) => setChooseDay(value)}
+        navigation={navigation}
       />
       <Text>{month}</Text>
     </SafeAreaView>
+  );
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Main">
+        <Stack.Screen
+          name="Main"
+          component={MainScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Plans"
+          component={() => <View>123</View>}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
@@ -77,6 +100,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#1E1F25",
+  },
+  test: {
+    display: "none",
   },
 });
 
