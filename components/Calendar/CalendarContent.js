@@ -9,18 +9,20 @@ import {
   FlatList,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as Font from "expo-font";
 
+// visual fix - margins
 const renderWeekSteps = (days) => {
+  let leftMagrins = [];
+
   let tempLengthF = days[0].week;
   for (let i = 0; i < tempLengthF; i++) {
-    days = [
-      {
-        isDay: false,
-      },
-      ...days,
-    ];
+    leftMagrins.push({
+      isDay: false,
+    });
   }
+
+  days = [...leftMagrins, ...days];
+
   let tempLengthL = 7 - (days.length % 7);
   for (let i = 0; i < tempLengthL; i++) {
     days.push({
@@ -30,7 +32,7 @@ const renderWeekSteps = (days) => {
 
   return days;
 };
-
+// replace color
 const replaceColorDay = (ArrayDays, keyMonth, keyDay, MEMORY, style) => {
   ArrayDays[keyDay] = {
     idArray: MEMORY.index,
@@ -42,8 +44,21 @@ const replaceColorDay = (ArrayDays, keyMonth, keyDay, MEMORY, style) => {
 };
 
 const CalendarContent = ({ date, countDay }) => {
-  let weekName = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
-  const [styleDays, setStyleDays] = useState({});
+  const weekName = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
+  const variateVisualDate = [
+    stylesDays.dayStyle1,
+    stylesDays.dayStyle2,
+    stylesDays.dayStyle3,
+    stylesDays.dayStyle4,
+    stylesDays.dayStyle5,
+    stylesDays.dayStyle6,
+    stylesDays.dayStyle7,
+  ];
+
+  const [styleDays, setStyleDays] = useState({}); // cash dayInfo - get array = year-month, get days cash =  year-month-day (value not id)
+  const [memoryClick, setMemoryClick] = useState(null); // remember click date
+  const [fastClick, setFastClick] = useState(true);
+  const longClick = useRef(null);
 
   let days = Array.from({ length: countDay }, (_, id) => ({
     isDay: true,
@@ -52,12 +67,8 @@ const CalendarContent = ({ date, countDay }) => {
   }));
   days = renderWeekSteps(days);
 
+  // Styles day
   const styleDateHandler = (item, index) => {
-    // {isDay: true, day: 21, week: 4} , 25
-
-    // styleDays[`${date.year}-${date.month}-${item.day}`]
-    // {idArray: 30, dayID: 26, styleKey: "work"}
-
     if (item.isDay) {
       if (styleDays[`${date.year}-${date.month}-${item.day}`]) {
         return [
@@ -70,6 +81,7 @@ const CalendarContent = ({ date, countDay }) => {
     }
   };
 
+  // get cash
   useEffect(() => {
     AsyncStorage.getItem(`${date.year}-${date.month}`).then((result) => {
       if (result != null) {
@@ -78,11 +90,7 @@ const CalendarContent = ({ date, countDay }) => {
     });
   }, [date]);
 
-  // CLICKS LONG SHORT
-  const [memoryClick, setMemoryClick] = useState(null);
-  const [fastClick, setFastClick] = useState(true);
-  const longClick = useRef(null);
-
+  // Hundler click
   const checkLongClick = (item, index) => {
     setFastClick(true);
     longClick.current = setTimeout(() => {
@@ -91,6 +99,7 @@ const CalendarContent = ({ date, countDay }) => {
     }, 250);
   };
 
+  // Hundler click
   const checkLongClickActive = () => {
     clearTimeout(longClick.current);
     // open
@@ -98,16 +107,6 @@ const CalendarContent = ({ date, countDay }) => {
       console.log("fast func");
     }
   };
-
-  let variateVisualDate = [
-    stylesDays.dayStyle1,
-    stylesDays.dayStyle2,
-    stylesDays.dayStyle3,
-    stylesDays.dayStyle4,
-    stylesDays.dayStyle5,
-    stylesDays.dayStyle6,
-    stylesDays.dayStyle7,
-  ];
 
   return (
     <SafeAreaView style={styles.body}>
