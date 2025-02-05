@@ -86,7 +86,11 @@ const App = () => {
         />
         <Stack.Screen
           name="Plans"
-          component={() => <View>123</View>}
+          component={() => (
+            <View>
+              {year} {month} {chooseDay}
+            </View>
+          )}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

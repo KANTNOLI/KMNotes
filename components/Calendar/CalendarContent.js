@@ -153,7 +153,7 @@ const CalendarContent = ({ date, countDay, chooseDay, navigation }) => {
               activeDate == item.day ? stylesDays.activeDay : "",
             ]}
             onPressIn={() => checkLongClick(item, index)}
-            onPressOut={checkLongClickActive}
+            onPressOut={() => checkLongClickActive(item)}
           >
             <Text style={styles.dayTitle}>{item.day}</Text>
           </TouchableOpacity>
