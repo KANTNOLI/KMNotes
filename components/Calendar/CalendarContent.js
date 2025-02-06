@@ -34,10 +34,13 @@ const renderWeekSteps = (days) => {
 };
 // replace color
 const replaceColorDay = (ArrayDays, keyMonth, keyDay, MEMORY, style) => {
+  console.log("active ");
+
   ArrayDays[keyDay] = {
     idArray: MEMORY.index,
     dayID: MEMORY.item.day,
     styleKey: style != stylesDays.dayStyle7 ? style : stylesDays.day,
+    plans: [],
   };
 
   AsyncStorage.setItem(keyMonth, JSON.stringify(ArrayDays));
@@ -68,6 +71,7 @@ const CalendarContent = ({ date, countDay, chooseDay, navigation }) => {
     isDay: true,
     day: id + 1,
     week: new Date(date.year, date.month, id).getDay(),
+    plans: [],
   }));
   days = renderWeekSteps(days);
 
@@ -104,12 +108,33 @@ const CalendarContent = ({ date, countDay, chooseDay, navigation }) => {
   };
 
   // Hundler click
-  const checkLongClickActive = (item) => {
+  const checkLongClickActive = (item, index) => {
     clearTimeout(longClick.current);
     // open
     if (fastClick) {
+      console.log(item);
+      console.log(styleDays[`${date.year}-${date.month}-${item.day}`]);
+
+      if (styleDays && styleDays[`${date.year}-${date.month}-${item.day}`]) {
+        replaceColorDay(
+          styleDays,
+          `${date.year}-${date.month}`,
+          `${date.year}-${date.month}-${item.day}`,
+          { item, index },
+          styleDays[`${date.year}-${date.month}-${item.day}`].styleKey
+        );
+      } else {
+        replaceColorDay(
+          styleDays,
+          `${date.year}-${date.month}`,
+          `${date.year}-${date.month}-${item.day}`,
+          { item, index },
+          stylesDays.day
+        );
+      }
+
       chooseDay(item.day);
-      navigation.navigate("Plans");
+      navigation.navigate("Day");
     }
   };
 
@@ -153,7 +178,7 @@ const CalendarContent = ({ date, countDay, chooseDay, navigation }) => {
               activeDate == item.day ? stylesDays.activeDay : "",
             ]}
             onPressIn={() => checkLongClick(item, index)}
-            onPressOut={() => checkLongClickActive(item)}
+            onPressOut={() => checkLongClickActive(item, index)}
           >
             <Text style={styles.dayTitle}>{item.day}</Text>
           </TouchableOpacity>

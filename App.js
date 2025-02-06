@@ -13,6 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import CalendarHeader from "./components/Calendar/CalendarHeader";
 import CalendarContent from "./components/Calendar/CalendarContent";
+import Days from "./components/Days/Days";
 
 const MONTHS = [
   "Январь",
@@ -34,10 +35,9 @@ const App = () => {
 
   let activeDate = new Date();
 
-  const [month, setMonth] = useState(activeDate.getMonth());
   const [year, setYear] = useState(activeDate.getFullYear());
+  const [month, setMonth] = useState(activeDate.getMonth());
   const [chooseDay, setChooseDay] = useState(null);
-  console.log(chooseDay);
 
   //console.log(new Date(year, month + 1, 0).getDate());
 
@@ -82,16 +82,27 @@ const App = () => {
         <Stack.Screen
           name="Main"
           component={MainScreen}
-          options={{ headerShown: false }}
+          options={{
+            headerShown: false,
+            documentTitle: `${MONTHS[month]} ${year}`,
+          }}
         />
         <Stack.Screen
-          name="Plans"
+          name="Day"
           component={() => (
-            <View>
-              {year} {month} {chooseDay}
-            </View>
+            <Days
+              navigation={navigation}
+              date={{
+                year,
+                month,
+                day: chooseDay,
+              }}
+            />
           )}
-          options={{ headerShown: false }}
+          options={{
+            headerShown: false,
+            documentTitle: `${MONTHS[month]} ${chooseDay} ${year}`,
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
