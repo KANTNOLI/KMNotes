@@ -34,8 +34,6 @@ const renderWeekSteps = (days) => {
 };
 // replace color
 const replaceColorDay = (ArrayDays, keyMonth, keyDay, MEMORY, style) => {
-  console.log("active ");
-
   ArrayDays[keyDay] = {
     idArray: MEMORY.index,
     dayID: MEMORY.item.day,
@@ -50,7 +48,6 @@ const CalendarContent = ({ date, countDay, chooseDay, navigation }) => {
   let activeDate = new Date();
   activeDate = date.month == activeDate.getMonth() ? activeDate.getDate() : -1;
 
-  console.log();
   const weekName = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
   const variateVisualDate = [
     stylesDays.dayStyle1,
@@ -112,9 +109,6 @@ const CalendarContent = ({ date, countDay, chooseDay, navigation }) => {
     clearTimeout(longClick.current);
     // open
     if (fastClick) {
-      console.log(item);
-      console.log(styleDays[`${date.year}-${date.month}-${item.day}`]);
-
       if (styleDays && styleDays[`${date.year}-${date.month}-${item.day}`]) {
         replaceColorDay(
           styleDays,
