@@ -229,7 +229,7 @@ const stylesDays = {
 const styles = StyleSheet.create({
   body: {
     width: "80%",
-    height: 280,
+    height: 300,
     borderBottomWidth: 2,
     borderColor: "#313131",
   },

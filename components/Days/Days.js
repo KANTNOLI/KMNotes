@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import {
   SafeAreaView,
@@ -9,6 +9,7 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
+  TextInput,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -57,7 +58,16 @@ const HOURS = [
 const Days = ({ navigation, date }) => {
   const [monthData, setMonthData] = useState({});
   const [dayData, setdayData] = useState({});
+
+  const [plan, setPlan] = useState("");
+
+  const [addState, setAddState] = useState(true);
+  const textPlanRef = useRef(null);
   //console.log(new Date(year, month + 1, 0).getDate());
+
+  const replaceSpace = () => {
+    return plan.replace(/\[#\]/g, "\n");
+  };
 
   useEffect(() => {
     AsyncStorage.getItem(`${date.year}-${date.month}`)
@@ -68,7 +78,7 @@ const Days = ({ navigation, date }) => {
       });
   }, []);
 
-  console.log(dayData);
+  console.log(textPlanRef);
 
   return (
     <SafeAreaView style={styles.body}>
@@ -84,11 +94,54 @@ const Days = ({ navigation, date }) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.exitBtn}
-          onPress={() => navigation.navigate("Main")}
+          onPress={() => setAddState(!addState)}
         >
           <Image style={styles.img} source={require("../../assets/add.png")} />
         </TouchableOpacity>
       </View>
+
+      {addState && (
+        <View style={styles.addPanel}>
+          <Text ref={textPlanRef} style={styles.addPanelText}>
+            {replaceSpace()}
+          </Text>
+          <View style={styles.inputBtns}>
+            <TextInput
+              multiline={true}
+              style={styles.inputs}
+              value={plan}
+              onPress={() => {
+                textPlanRef.current.focus();
+                textPlanRef.current.setNativeProps({
+                  selection: { start: plan.length, end: plan.length },
+                });
+              }}
+              onChangeText={setPlan}
+            />
+            <TouchableOpacity
+              style={styles.btnNext2}
+              onPress={() => {
+                setPlan(plan + "[#]");
+              }}
+            >
+              <Image
+                style={styles.img}
+                source={require("../../assets/line.png")}
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.btnNext}
+              onPress={() => setAddState(!addState)}
+            >
+              <Image
+                style={styles.img}
+                source={require("../../assets/create.png")}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
     </SafeAreaView>
   );
 };
@@ -99,6 +152,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#1E1F25",
   },
+  btnNext: {
+    borderRadius: 10,
+    width: 40,
+    height: 35,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  btnNext2: {
+    borderRadius: 10,
+    width: 35,
+    height: 30,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   header: {
     width: "80%",
     flexDirection: "row",
@@ -108,11 +175,37 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "white",
   },
+  inputBtns: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 15,
+  },
+  inputs: {
+    width: "60%",
+    height: 60,
+    backgroundColor: "#1E1F21",
+  },
   headerText: {
     flex: 1,
     fontSize: 20,
     color: "white",
     fontWeight: 500,
+  },
+  addPanelText: {
+    marginTop: 20,
+    width: "90%",
+  },
+  addPanel: {
+    top: 70,
+    justifyContent: "space-between",
+    position: "absolute",
+    width: "80%",
+    alignItems: "center",
+    height: 400,
+    backgroundColor: "green",
+    backgroundColor: "#4C4D55",
+    borderRadius: 15,
   },
   exitBtn: {
     alignItems: "center",

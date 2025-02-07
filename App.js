@@ -76,6 +76,17 @@ const App = () => {
     </SafeAreaView>
   );
 
+  const DayScreen = ({ navigation }) => (
+    <Days
+      navigation={navigation}
+      date={{
+        year,
+        month,
+        day: chooseDay,
+      }}
+    />
+  );
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Main">
@@ -89,16 +100,7 @@ const App = () => {
         />
         <Stack.Screen
           name="Day"
-          component={() => (
-            <Days
-              navigation={navigation}
-              date={{
-                year,
-                month,
-                day: chooseDay,
-              }}
-            />
-          )}
+          component={DayScreen}
           options={{
             headerShown: false,
             documentTitle: `${MONTHS[month]} ${chooseDay} ${year}`,
