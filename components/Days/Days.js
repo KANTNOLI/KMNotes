@@ -69,6 +69,8 @@ const Days = ({ navigation, date }) => {
   const textPlanRef = useRef(null);
   //console.log(new Date(year, month + 1, 0).getDate());
 
+  const [chooseHour, setChooseHour] = useState(11);
+
   const replaceSpace = () => {
     return plan.replace(/\[#\]/g, "\n");
   };
@@ -97,7 +99,7 @@ const Days = ({ navigation, date }) => {
 
     if (plan != "" || plan != "[#]") {
       tempMonthData[`${date.year}-${date.month}-${date.day}`].plans[
-        HOURS[11]
+        HOURS[chooseHour]
       ].push(plan);
 
       AsyncStorage.setItem(
@@ -198,6 +200,8 @@ const Days = ({ navigation, date }) => {
         </View>
       )}
 
+      {addState && <View style={styles.setHours}>asd</View>}
+
       <View style={styles.boxVisual}>
         <ScrollView style={{ height: 1 }}>
           <FlatList
@@ -209,7 +213,7 @@ const Days = ({ navigation, date }) => {
                   data={item.array}
                   renderItem={({ item, index }) => (
                     <View style={styles.planDiv}>
-                      {item.text}
+                      <Text style={styles.htsBtnText}> {item.text}</Text>
                       <View
                         style={{ flexDirection: "row", alignItems: "center" }}
                       >
@@ -247,6 +251,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "column",
     backgroundColor: "#1E1F25",
+  },
+  setHours: {},
+  htsBtnText: {
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+    numberOfLines: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "red",
+    color: "white",
+    maxWidth: "70%",
+    fontSize: 16,
   },
   htsBtn1: {
     marginRight: 10,
@@ -329,6 +346,7 @@ const styles = StyleSheet.create({
     height: 60,
     borderColor: "white",
     borderWidth: 1,
+    color: "white",
     backgroundColor: "#34353b",
   },
   headerText: {
