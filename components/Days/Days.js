@@ -152,10 +152,9 @@ const Days = ({ navigation, date }) => {
 
   const removePlan = (item, index) => {
     let tempM = monthData;
-    tempM[`${date.year}-${date.month}-${date.day}`].plans[item.hour].splice(
-      index,
-      1
-    );
+    tempM[`${date.year}-${date.month}-${date.day}`].plans[
+      HOURS[item.hour]
+    ].splice(index, 1);
 
     AsyncStorage.setItem(`${date.year}-${date.month}`, JSON.stringify(tempM));
     setMonthData(tempM);
