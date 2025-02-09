@@ -195,7 +195,7 @@ const Days = ({ navigation, date }) => {
       </View>
 
       {addState && (
-        <View style={styles.addPanel}>
+        <View style={editCash ? styles.addPanel : styles.addPanel2}>
           <Text ref={textPlanRef} style={styles.addPanelText}>
             {plan ? replaceSpace() : "Какие планы на этот день?"}
           </Text>
@@ -487,6 +487,20 @@ const styles = StyleSheet.create({
     color: "white",
     marginTop: 20,
     width: "90%",
+  },
+  addPanel2: {
+    top: 70,
+    position: "absolute",
+    justifyContent: "space-between",
+    width: "80%",
+    alignItems: "center",
+    height: "80%",
+    backgroundColor: "green",
+    backgroundColor: "#2e2f36",
+    borderColor: "#7a7a7a",
+    borderWidth: 1,
+    borderRadius: 15,
+    zIndex: 1000,
   },
   addPanel: {
     top: 70,
