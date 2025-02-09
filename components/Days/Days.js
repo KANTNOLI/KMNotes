@@ -82,10 +82,8 @@ const Days = ({ navigation, date }) => {
         });
       }
     });
-
-    console.log(activeArray);
+    return activeArray;
   };
-  renderTasksArray();
 
   const createNewPlan = () => {
     // {idArray: 17, dayID: 13, styleKey: {…}, plans: []}
@@ -186,14 +184,20 @@ const Days = ({ navigation, date }) => {
       <View style={styles.boxVisual}>
         <ScrollView style={{ height: 1 }}>
           <FlatList
-            data={HOURS}
-            renderItem={({ item, index }) =>
-              planData[item] && planData[item].length > 0 ? (
-                <View style={styles.planDiv}>{planData[item]}</View>
-              ) : (
-                <View style={styles.planDivNull}>{12333}</View>
-              )
-            }
+            data={renderTasksArray()}
+            renderItem={({ item, index }) => (
+              <View style={styles.hourvisual}>
+                <Text style={styles.hourvisualText}>{item.hours}</Text>
+                <FlatList
+                  data={item.array}
+                  renderItem={({ item, index }) => (
+                    <View style={styles.planDiv}>
+                      {item} - {index}
+                    </View>
+                  )}
+                />
+              </View>
+            )}
           />
         </ScrollView>
       </View>
@@ -208,6 +212,17 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     backgroundColor: "#1E1F25",
   },
+  hourvisual: {
+    marginTop: 20,
+    paddingBottom: 10,
+    borderBottomColor: "#7a7a7a",
+    borderBottomWidth: 2,
+  },
+  hourvisualText: {
+    fontSize: 18,
+    fontWeight: 500,
+    color: "white",
+  },
   boxVisual: {
     flex: 1,
     width: "80%",
@@ -220,11 +235,11 @@ const styles = StyleSheet.create({
   },
   planDiv: {
     backgroundColor: "white",
-    marginTop: 20,
+    marginTop: 10,
+    paddingLeft: 20,
+    maxWidth: "100%",
+    justifyContent: "center",
     height: 50,
-  },
-  planDivNull: {
-    height: 20,
   },
   btnNext: {
     borderRadius: 10,
