@@ -75,10 +75,15 @@ const Days = ({ navigation, date }) => {
   const renderTasksArray = () => {
     let activeArray = [];
     HOURS.map((hour, id) => {
-      if (planData && planData[hour] != []) {
-        console.log(planData[hour].length);
+      if (planData && Array.isArray(planData[hour]) && planData[hour].length) {
+        activeArray.push({
+          hours: hour,
+          array: planData[hour],
+        });
       }
     });
+
+    console.log(activeArray);
   };
   renderTasksArray();
 
@@ -282,6 +287,7 @@ const styles = StyleSheet.create({
     borderColor: "#7a7a7a",
     borderWidth: 1,
     borderRadius: 15,
+    zIndex: 1000,
   },
   exitBtn: {
     alignItems: "center",
