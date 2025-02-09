@@ -199,75 +199,79 @@ const Days = ({ navigation, date }) => {
             {plan ? replaceSpace() : "Какие планы на этот день?"}
           </Text>
           {editCash && (
-            <View style={styles.inputBtns}>
-              <TextInput
-                multiline={true}
-                style={styles.inputs}
-                value={plan}
-                onPress={() => {
-                  textPlanRef.current.focus();
-                  textPlanRef.current.setNativeProps({
-                    selection: { start: plan.length, end: plan.length },
-                  });
-                }}
-                onChangeText={setPlan}
-              />
-              <TouchableOpacity
-                style={styles.btnNext2}
-                onPress={() => {
-                  setPlan(plan ? plan + "[#]" : "");
-                }}
-              >
-                <Image
-                  style={styles.img}
-                  source={require("../../assets/line.png")}
+            <View>
+              <View style={styles.inputBtns}>
+                <TextInput
+                  multiline={true}
+                  style={styles.inputs}
+                  value={plan}
+                  onPress={() => {
+                    textPlanRef.current.focus();
+                    textPlanRef.current.setNativeProps({
+                      selection: { start: plan.length, end: plan.length },
+                    });
+                  }}
+                  onChangeText={setPlan}
                 />
-              </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.btnNext2}
+                  onPress={() => {
+                    setPlan(plan ? plan + "[#]" : "");
+                  }}
+                >
+                  <Image
+                    style={styles.img}
+                    source={require("../../assets/line.png")}
+                  />
+                </TouchableOpacity>
 
-              <TouchableOpacity
-                style={styles.btnNext}
-                onPress={() => {
-                  if (editNow) {
-                    editNewPlan();
-                  } else {
-                    createNewPlan();
+                <TouchableOpacity
+                  style={styles.btnNext}
+                  onPress={() => {
+                    if (editNow) {
+                      editNewPlan();
+                    } else {
+                      createNewPlan();
+                    }
+
+                    setPlan("");
+                    setEditCash2({});
+                    setEditCash(false);
+                    setEditNow(false);
+                  }}
+                >
+                  <Image
+                    style={styles.img}
+                    source={require("../../assets/create.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.setHours}>
+                <Text
+                  style={styles.arrowHour2}
+                  onPress={() =>
+                    chooseHour < 24
+                      ? setChooseHour(chooseHour + 1)
+                      : setChooseHour(1)
                   }
-
-                  setPlan("");
-                  setEditCash2({});
-                  setEditCash(false);
-                  setEditNow(false);
-                }}
-              >
-                <Image
-                  style={styles.img}
-                  source={require("../../assets/create.png")}
-                />
-              </TouchableOpacity>
+                >
+                  -
+                </Text>
+                <Text style={styles.HourChooseVisual}>{HOURS[chooseHour]}</Text>
+                <Text
+                  style={styles.arrowHour1}
+                  onPress={() =>
+                    chooseHour > 1
+                      ? setChooseHour(chooseHour - 1)
+                      : setChooseHour(24)
+                  }
+                >
+                  +
+                </Text>
+              </View>
             </View>
           )}
-        </View>
-      )}
-
-      {editCash && addState && (
-        <View style={styles.setHours}>
-          <Text
-            style={styles.arrowHour2}
-            onPress={() =>
-              chooseHour < 24 ? setChooseHour(chooseHour + 1) : setChooseHour(1)
-            }
-          >
-            -
-          </Text>
-          <Text style={styles.HourChooseVisual}>{HOURS[chooseHour]}</Text>
-          <Text
-            style={styles.arrowHour1}
-            onPress={() =>
-              chooseHour > 1 ? setChooseHour(chooseHour - 1) : setChooseHour(24)
-            }
-          >
-            +
-          </Text>
         </View>
       )}
 
@@ -367,17 +371,12 @@ const styles = StyleSheet.create({
   },
   setHours: {
     textAlign: "center",
-    top: 490,
-    position: "absolute",
     justifyContent: "center",
-    width: "80%",
+    width: "100%",
     flexDirection: "row",
     alignItems: "center",
-    height: 80,
-    backgroundColor: "green",
-    backgroundColor: "#2e2f36",
-    borderColor: "#7a7a7a",
-    borderWidth: 1,
+    height: 40,
+    marginBottom: 20,
     borderRadius: 15,
     zIndex: 1000,
   },
@@ -484,6 +483,7 @@ const styles = StyleSheet.create({
   },
   addPanelText: {
     color: "white",
+    fontSize: 18,
     marginTop: 20,
     width: "90%",
   },
@@ -507,7 +507,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "80%",
     alignItems: "center",
-    height: 400,
+    minHeight: 600,
+    marginBottom: 20,
     backgroundColor: "green",
     backgroundColor: "#2e2f36",
     borderColor: "#7a7a7a",
