@@ -7,13 +7,30 @@
 - Edit Colors - Simple settings - long click on day (>0.2s)
 - Cash - save all memory 
 - Tracking longitude by tapping (Open Settigns and open day)
+- Routing logic
+- Creating plan on day
+- Output visual 100%
+- edit plan (choose time or edit text)
+- delete plan
+- controll time, choose time on plan 
 
 ### Upcoming update plans
-- Routing (Starting create individual plans on click day on time)
-- Short Clickk -> open day simple realization 
+- Add Pinned plans (Add func on creating)
+- notifications
+- edit mote color on months, array of work days and other
 
 
 ## Images 
-![image](https://github.com/user-attachments/assets/ca08ddf4-00c9-4838-8a67-72d820e23c8f)
-![image](https://github.com/user-attachments/assets/db7667d7-2600-428a-88b1-b7059ee1551b)
-![image](https://github.com/user-attachments/assets/7d492dba-36f1-4944-9b53-7cd8c149a9c8)
+- 1 Default visual (Choose months, default open actual + visual act day)
+- 2 Setting up colors (Long click)
+- 3 Buttons back menu, add new plan, edit plan, remove and open on click text
+- 4 Click on text - open on read 
+- 5 Writing and choosing time
+
+![image](https://github.com/user-attachments/assets/aa53a13c-9b02-4fdf-b4dd-ef46a246a73b)
+![image](https://github.com/user-attachments/assets/e631e12c-d7d2-4f5c-9557-5a732e72fc8b)
+![image](https://github.com/user-attachments/assets/d9e8b5cd-42b3-47f2-a2a9-9a4c990e1a7b)
+![image](https://github.com/user-attachments/assets/0c231c9c-bb98-4edb-8f5b-7853b0f0a28b)
+![image](https://github.com/user-attachments/assets/9f8ee3ac-91c4-42ab-a193-3b774c02dbd2)
+
+
