@@ -34,12 +34,47 @@ const renderWeekSteps = (days) => {
 };
 // replace color
 const replaceColorDay = (ArrayDays, keyMonth, keyDay, MEMORY, style) => {
-  ArrayDays[keyDay] = {
-    idArray: MEMORY.index,
-    dayID: MEMORY.item.day,
-    styleKey: style != stylesDays.dayStyle7 ? style : stylesDays.day,
-    plans: [],
-  };
+  if (ArrayDays[keyDay]) {
+    ArrayDays[keyDay] = {
+      idArray: MEMORY.index,
+      dayID: MEMORY.item.day,
+      styleKey: style != stylesDays.dayStyle7 ? style : stylesDays.day,
+      plans: ArrayDays[keyDay].plans,
+    };
+  } else {
+    ArrayDays[keyDay] = {
+      idArray: MEMORY.index,
+      dayID: MEMORY.item.day,
+      styleKey: style != stylesDays.dayStyle7 ? style : stylesDays.day,
+      plans: {
+        pinned: [],
+        "24:00": [],
+        "23:00": [],
+        "22:00": [],
+        "21:00": [],
+        "20:00": [],
+        "19:00": [],
+        "18:00": [],
+        "17:00": [],
+        "16:00": [],
+        "15:00": [],
+        "14:00": [],
+        "13:00": [],
+        "12:00": [],
+        "11:00": [],
+        "10:00": [],
+        "09:00": [],
+        "08:00": [],
+        "07:00": [],
+        "06:00": [],
+        "05:00": [],
+        "04:00": [],
+        "03:00": [],
+        "02:00": [],
+        "01:00": [],
+      },
+    };
+  }
 
   AsyncStorage.setItem(keyMonth, JSON.stringify(ArrayDays));
 };
@@ -68,7 +103,33 @@ const CalendarContent = ({ date, countDay, chooseDay, navigation }) => {
     isDay: true,
     day: id + 1,
     week: new Date(date.year, date.month, id).getDay(),
-    plans: [],
+    plans: {
+      pinned: [],
+      "24:00": [],
+      "23:00": [],
+      "22:00": [],
+      "21:00": [],
+      "20:00": [],
+      "19:00": [],
+      "18:00": [],
+      "17:00": [],
+      "16:00": [],
+      "15:00": [],
+      "14:00": [],
+      "13:00": [],
+      "12:00": [],
+      "11:00": [],
+      "10:00": [],
+      "09:00": [],
+      "08:00": [],
+      "07:00": [],
+      "06:00": [],
+      "05:00": [],
+      "04:00": [],
+      "03:00": [],
+      "02:00": [],
+      "01:00": [],
+    },
   }));
   days = renderWeekSteps(days);
 

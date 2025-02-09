@@ -10,6 +10,8 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
+  ScrollView,
+  Dimensions,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -29,6 +31,7 @@ const MONTHS = [
 ];
 
 const HOURS = [
+  "pinned",
   "24:00",
   "23:00",
   "22:00",
@@ -57,11 +60,11 @@ const HOURS = [
 
 const Days = ({ navigation, date }) => {
   const [monthData, setMonthData] = useState({});
-  const [dayData, setdayData] = useState({});
+  const [planData, setPlanData] = useState({});
 
   const [plan, setPlan] = useState("");
 
-  const [addState, setAddState] = useState(true);
+  const [addState, setAddState] = useState(false);
   const textPlanRef = useRef(null);
   //console.log(new Date(year, month + 1, 0).getDate());
 
@@ -69,12 +72,42 @@ const Days = ({ navigation, date }) => {
     return plan.replace(/\[#\]/g, "\n");
   };
 
+  const renderTasksArray = () => {
+    let activeArray = [];
+    HOURS.map((hour, id) => {
+      if (planData && planData[hour] != []) {
+        console.log(planData[hour].length);
+      }
+    });
+  };
+  renderTasksArray();
+
+  const createNewPlan = () => {
+    // {idArray: 17, dayID: 13, styleKey: {…}, plans: []}
+
+    let tempMonthData = monthData;
+
+    if (plan != "" || plan != "[#]") {
+      tempMonthData[`${date.year}-${date.month}-${date.day}`].plans[
+        HOURS[11]
+      ].push(plan);
+
+      AsyncStorage.setItem(
+        `${date.year}-${date.month}`,
+        JSON.stringify(tempMonthData)
+      );
+
+      setPlan("");
+      setAddState(false);
+    }
+  };
+
   useEffect(() => {
     AsyncStorage.getItem(`${date.year}-${date.month}`)
       .then((json) => JSON.parse(json))
       .then((result) => {
         setMonthData(result);
-        setdayData(result[`${date.year}-${date.month}-${date.day}`]);
+        setPlanData(result[`${date.year}-${date.month}-${date.day}`].plans);
       });
   }, []);
 
@@ -103,7 +136,7 @@ const Days = ({ navigation, date }) => {
       {addState && (
         <View style={styles.addPanel}>
           <Text ref={textPlanRef} style={styles.addPanelText}>
-            {replaceSpace()}
+            {plan ? replaceSpace() : "Какие планы на этот день?"}
           </Text>
           <View style={styles.inputBtns}>
             <TextInput
@@ -121,7 +154,7 @@ const Days = ({ navigation, date }) => {
             <TouchableOpacity
               style={styles.btnNext2}
               onPress={() => {
-                setPlan(plan + "[#]");
+                setPlan(plan ? plan + "[#]" : "");
               }}
             >
               <Image
@@ -132,7 +165,9 @@ const Days = ({ navigation, date }) => {
 
             <TouchableOpacity
               style={styles.btnNext}
-              onPress={() => setAddState(!addState)}
+              onPress={() => {
+                createNewPlan();
+              }}
             >
               <Image
                 style={styles.img}
@@ -142,6 +177,21 @@ const Days = ({ navigation, date }) => {
           </View>
         </View>
       )}
+
+      <View style={styles.boxVisual}>
+        <ScrollView style={{ height: 1 }}>
+          <FlatList
+            data={HOURS}
+            renderItem={({ item, index }) =>
+              planData[item] && planData[item].length > 0 ? (
+                <View style={styles.planDiv}>{planData[item]}</View>
+              ) : (
+                <View style={styles.planDivNull}>{12333}</View>
+              )
+            }
+          />
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
@@ -150,7 +200,26 @@ const styles = StyleSheet.create({
   body: {
     flex: 1,
     alignItems: "center",
+    flexDirection: "column",
     backgroundColor: "#1E1F25",
+  },
+  boxVisual: {
+    flex: 1,
+    width: "80%",
+  },
+  dNone: {
+    display: "none",
+  },
+  ArrayDuiv: {
+    width: "100%",
+  },
+  planDiv: {
+    backgroundColor: "white",
+    marginTop: 20,
+    height: 50,
+  },
+  planDivNull: {
+    height: 20,
   },
   btnNext: {
     borderRadius: 10,
@@ -182,9 +251,13 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   inputs: {
+    padding: 5,
+    borderRadius: 10,
     width: "60%",
     height: 60,
-    backgroundColor: "#1E1F21",
+    borderColor: "white",
+    borderWidth: 1,
+    backgroundColor: "#34353b",
   },
   headerText: {
     flex: 1,
@@ -193,18 +266,21 @@ const styles = StyleSheet.create({
     fontWeight: 500,
   },
   addPanelText: {
+    color: "white",
     marginTop: 20,
     width: "90%",
   },
   addPanel: {
     top: 70,
-    justifyContent: "space-between",
     position: "absolute",
+    justifyContent: "space-between",
     width: "80%",
     alignItems: "center",
     height: 400,
     backgroundColor: "green",
-    backgroundColor: "#4C4D55",
+    backgroundColor: "#2e2f36",
+    borderColor: "#7a7a7a",
+    borderWidth: 1,
     borderRadius: 15,
   },
   exitBtn: {
