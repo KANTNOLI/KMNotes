@@ -59,6 +59,7 @@ const HOURS = [
 ];
 
 const Days = ({ navigation, date }) => {
+  const [reloadFlag, setReloadFlag] = useState(false);
   const [monthData, setMonthData] = useState({});
   const [planData, setPlanData] = useState({});
 
@@ -78,7 +79,11 @@ const Days = ({ navigation, date }) => {
       if (planData && Array.isArray(planData[hour]) && planData[hour].length) {
         activeArray.push({
           hours: hour,
-          array: planData[hour],
+          array: planData[hour].map((str, id) => ({
+            id: id,
+            hour: hour,
+            text: str,
+          })),
         });
       }
     });
@@ -105,6 +110,18 @@ const Days = ({ navigation, date }) => {
     }
   };
 
+  const removePlan = (item, index) => {
+    let tempM = monthData;
+    tempM[`${date.year}-${date.month}-${date.day}`].plans[item.hour].splice(
+      index,
+      1
+    );
+
+    AsyncStorage.setItem(`${date.year}-${date.month}`, JSON.stringify(tempM));
+    setMonthData(tempM);
+    setReloadFlag(!reloadFlag);
+  };
+
   useEffect(() => {
     AsyncStorage.getItem(`${date.year}-${date.month}`)
       .then((json) => JSON.parse(json))
@@ -112,7 +129,7 @@ const Days = ({ navigation, date }) => {
         setMonthData(result);
         setPlanData(result[`${date.year}-${date.month}-${date.day}`].plans);
       });
-  }, []);
+  }, [reloadFlag]);
 
   console.log(textPlanRef);
 
@@ -192,7 +209,26 @@ const Days = ({ navigation, date }) => {
                   data={item.array}
                   renderItem={({ item, index }) => (
                     <View style={styles.planDiv}>
-                      {item} - {index}
+                      {item.text}
+                      <View
+                        style={{ flexDirection: "row", alignItems: "center" }}
+                      >
+                        <TouchableOpacity style={styles.htsBtn1}>
+                          <Image
+                            style={styles.htsImg1}
+                            source={require("../../assets/editTasks.png")}
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() => removePlan(item, index)}
+                          style={styles.htsBtn2}
+                        >
+                          <Image
+                            style={styles.htsImg1}
+                            source={require("../../assets/trashDelete.png")}
+                          />
+                        </TouchableOpacity>
+                      </View>
                     </View>
                   )}
                 />
@@ -211,6 +247,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "column",
     backgroundColor: "#1E1F25",
+  },
+  htsBtn1: {
+    marginRight: 10,
+    width: 22,
+    height: 22,
+  },
+  htsBtn2: {
+    marginRight: 10,
+    width: 28,
+    height: 28,
+  },
+  htsImg1: {
+    width: "100%",
+    height: "100%",
   },
   hourvisual: {
     marginTop: 20,
@@ -234,12 +284,14 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   planDiv: {
-    backgroundColor: "white",
+    flexDirection: "row",
+    color: "white",
     marginTop: 10,
-    paddingLeft: 20,
+    paddingLeft: 10,
     maxWidth: "100%",
-    justifyContent: "center",
-    height: 50,
+    alignContent: "center",
+    justifyContent: "space-between",
+    height: 30,
   },
   btnNext: {
     borderRadius: 10,
