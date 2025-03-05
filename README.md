@@ -27,11 +27,8 @@
 - 4 Click on text - open on read 
 - 5 Writing and choosing time
 
-![image](https://github.com/user-attachments/assets/aa53a13c-9b02-4fdf-b4dd-ef46a246a73b)
-![image](https://github.com/user-attachments/assets/e631e12c-d7d2-4f5c-9557-5a732e72fc8b)
-![image](https://github.com/user-attachments/assets/d9e8b5cd-42b3-47f2-a2a9-9a4c990e1a7b)
-![image](https://github.com/user-attachments/assets/0c231c9c-bb98-4edb-8f5b-7853b0f0a28b)
-![image](https://github.com/user-attachments/assets/f08516a3-8a7f-496f-bcf5-f58907480e11)
+![1](https://github.com/user-attachments/assets/aa7e7a01-bfff-49db-afe8-33b1206150b4)
+![2](https://github.com/user-attachments/assets/50a3e606-1028-410f-b613-e6621a8da52b)
 
 
 
