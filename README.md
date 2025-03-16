@@ -4,7 +4,7 @@
 ### Implemented - Testing in mobile (Yes)
 - MainScreen (Visual + not options )
 - Toggle months menu (prev | next)
-- Edit Colors - Simple settings - long click on day (>0.2s)
+- Edit Colors - Simple settings - long click on day (>0.20s)
 - Cash - save all memory 
 - Tracking longitude by tapping (Open Settigns and open day)
 - Routing logic
