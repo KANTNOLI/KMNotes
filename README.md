@@ -27,8 +27,7 @@
 - 4 Click on text - open on read 
 - 5 Writing and choosing time
 
-![1](https://github.com/user-attachments/assets/aa7e7a01-bfff-49db-afe8-33b1206150b4)
-![2](https://github.com/user-attachments/assets/50a3e606-1028-410f-b613-e6621a8da52b)
 
+![KMNotes](https://github.com/user-attachments/assets/9469c4b6-adf5-4b74-9250-68296f880e15)
 
 
